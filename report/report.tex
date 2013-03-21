@@ -213,8 +213,8 @@
 \renewcommand{\headrulewidth}{0.5pt}
 \renewcommand{\footrulewidth}{0.5pt}
 
-%\lhead{}
-%\chead{}
+\lhead{}
+\chead{}
 %\rhead{}
 \lfoot{\textcopyright EPFL - IC - Version \theversion}
 \cfoot{}
@@ -300,18 +300,18 @@
 % ----- Quote -----
 
 %\insertblankpage
-\newpage
+%\newpage
 
-\thispagestyle{empty}
-\vspace*{\fill}
+%\thispagestyle{empty}
+%\vspace*{\fill}
 
-\begin{center}
-\parbox{0.73\textwidth}{
-\large \emph{\textquotedblleft The most important motivation for the research work that resulted in the relational model was the objective of providing a sharp and clear boundary between the logical and physical aspects of database management.\textquotedblright }}
-\parbox{0.65\textwidth}{\begin{flushright}---\hspace{0.5em} Edgar F. Codd, February 1982\end{flushright}}
-\end{center}
+%\begin{center}
+%\parbox{0.73\textwidth}{
+%\large \emph{\textquotedblleft The most important motivation for the research work that resulted in the relational model was the %objective of providing a sharp and clear boundary between the logical and physical aspects of database %management.\textquotedblright }}
+%\parbox{0.65\textwidth}{\begin{flushright}---\hspace{0.5em} Edgar F. Codd, February 1982\end{flushright}}
+%\end{center}
 
-\vspace*{\fill}
+%\vspace*{\fill}
 
 % ----- Contents + Preface -----
 \pagenumbering{roman}                       % Numerotation romaine
@@ -324,9 +324,8 @@
 
 % ----- Main Document -----
 \pagenumbering{arabic}                      % Numerotation arabe
-\input{tex/introduction}
+%\input{tex/technologies}
 \input{tex/er-model}
-\input{tex/relational-schema}
 \input{tex/ddl-statements}
 
 % ----- Appendices -----

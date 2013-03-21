@@ -15,11 +15,22 @@
 
 \chapter{Entity–relationship model}
 
-Bla bla bla
-
 \begin{center}
-	\fbox{\includegraphics[width=0.75\textwidth]{ermodel}}
+	\fbox{\includegraphics[width=0.6\textwidth]{er-model}}
 \end{center}
+
+From the analysis of the Dataset, here are our assumptions:
+
+\begin{itemize}
+	\item[$\circ$] An \textbf{Athlete} is always performing a \textbf{Discipline} instead of just a \textbf{Sport}.
+	\item[$\circ$] An \textbf{Athlete} can represent only a \textbf{Country} for a \textbf{Game}. However, he can represent another \textbf{Country} for another \textbf{Game}.
+	\item[$\circ$] A \textbf{Game} can only be hosted by one and only one \textbf{Country}, but this \textbf{Country} can host several \textbf{Games}.
+	\item[$\circ$] Each \textbf{Discipline} is defined by its \textbf{Sport}.
+	\item[$\circ$] An \textit{Event} is characterized by only a \textbf{Game} and only a \textbf{Discipline}.
+	\item[$\circ$] A \textit{Medal} is obtained for a \textit{Representant} during an \textit{Event}.
+	\item[$\circ$] A \textit{Participant} is formed by both a \textit{Representant} and an \textit{Event}.
+\end{itemize}
+
 
 
 %------------------------------------------------------------------------------
