@@ -28,7 +28,7 @@ CREATE TABLE Disciplines_event_Games (
 -- Here Event is a shortcut to table Disciplines_event_Games
 
 CREATE TABLE Representant_participates_Event (
-   athlete             char(20),
+   athlete              char(20),
    country              char(20),
    discipline           char(20),
    sport                char(20),
