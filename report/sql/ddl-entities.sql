@@ -1,38 +1,41 @@
 -- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Athletes (
-   name                  char(20),
-   PRIMARY KEY (name)
+   id                    integer,
+   name                  char(255),
+   PRIMARY KEY (id)
 );
 
 -- Note : Could not force the participation constraint to Athletes.
 CREATE TABLE Countries (
-   name                  char(20),
+   id                    integer,
+   name                  char(60),
    ioc_code              char(6),
-   PRIMARY KEY (name)
+   PRIMARY KEY (id)
 );
 
 -- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Sports (
-   name                  char(20),
-   PRIMARY KEY (name)
+   id                    integer,
+   name                  char(60),
+   PRIMARY KEY (id)
 
 );
 
 CREATE TABLE Games (
-   name                  char(20),
-   host_country          char(20) NOT NULL,
-   host_city             char(20) NOT NULL,
-   number_of_countries   integer(6),
-   number_of_athletes    integer(6),
-   number_of_events      integer(6),
-   PRIMARY KEY (name),
-   FOREIGN KEY (host_country) REFERENCES Countries (name)
+   id                    integer,
+   year                  integer(4),
+   is_summer             tinyint(1),
+   host_country          integer NOT NULL,
+   host_city             char(60) NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (host_country) REFERENCES Countries (id)
 );
 
 CREATE TABLE Disciplines (
-   name                  char(20),
-   sport                 char(20),
-   PRIMARY KEY (name, sport),
-   FOREIGN KEY (sport) REFERENCES Sports (name)
+   id                    integer,
+   name                  char(100),
+   sport                 integer NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (sport) REFERENCES Sports (id)
       ON DELETE CASCADE
 );

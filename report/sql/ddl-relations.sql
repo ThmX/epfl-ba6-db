@@ -1,51 +1,28 @@
 CREATE TABLE Athletes_represent_Countries (
-   athlete              char(20),
-   country              char(20),
+   athlete_id              integer,
+   country_id              integer,
    PRIMARY KEY (athlete, country),
-   FOREIGN KEY (athlete) REFERENCES Athletes (name),
-   FOREIGN KEY (country) REFERENCES Countries (name)
-);
-
-CREATE TABLE Athletes_performs_Discipline (
-   athlete              char(20),
-   discipline           char(20),
-   sport                char(20),
-   PRIMARY KEY (athlete, discipline, sport),
-   FOREIGN KEY (athlete) REFERENCES Athletes (name),
-   FOREIGN KEY (discipline, sport) REFERENCES Disciplines (name, sport)
+   FOREIGN KEY (athlete_id) REFERENCES Athletes (id),
+   FOREIGN KEY (country_id) REFERENCES Countries (id)
 );
 
 CREATE TABLE Disciplines_event_Games (
-   name                 char(20),
-   discipline           char(20),
-   sport                char(20),
-   games                char(20),
-   PRIMARY KEY (discipline, sport, games),
-   FOREIGN KEY (discipline, sport) REFERENCES Disciplines (name, sport),
-   FOREIGN KEY (games) REFERENCES Games (name)
+   discipline_id           integer,
+   games_id                integer,
+   PRIMARY KEY (discipline_id, games_id),
+   FOREIGN KEY (discipline_id) REFERENCES Disciplines (id),
+   FOREIGN KEY (games_id) REFERENCES Games (id)
 );
 
 -- Here Event is a shortcut to table Disciplines_event_Games
 
 CREATE TABLE Representant_participates_Event (
-   athlete              char(20),
-   country              char(20),
-   discipline           char(20),
-   sport                char(20),
-   olympics             char(20),
-   PRIMARY KEY (athlete, country, discipline, olympics),
-   FOREIGN KEY (athlete, country) REFERENCES Athletes_represent_Countries (athlete, country),
-   FOREIGN KEY (discipline, sport, olympics) REFERENCES Disciplines_event_Games (discipline, sport, games)
-);
-
-CREATE TABLE Representant_medal_Event (
-   medalist             char(20),
-   country              char(20),
-   medal                char(20),
-   discipline           char(20),
-   sport                char(20),
-   olympics             char(20),
-   PRIMARY KEY (medalist, country, discipline, olympics),
-   FOREIGN KEY (medalist, country) REFERENCES Athletes_represent_Countries (athlete, country),
-   FOREIGN KEY (discipline, sport, olympics) REFERENCES Disciplines_event_Games (discipline, sport, games)
+   athlete_id              integer,
+   country_id              integer,
+   discipline_id           integer,
+   games_id                integer,
+   ranking                 tinyint(2),
+   PRIMARY KEY (athlete_id, country_id, discipline_id, games_id),
+   FOREIGN KEY (athlete_id, country_id) REFERENCES Athletes_represent_Countries (athlete_id, country_id),
+   FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 );

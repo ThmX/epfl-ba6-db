@@ -72,8 +72,11 @@
 
 SELECT C.name
 FROM Countries C
-WHERE C.name NOT IN (
-	SELECT C2.name
-	FROM Countries C2
-	INNER JOIN Representant_medal_Event RME ON RME.country = C2.name
-)
+LEFT JOIN Representant_medal_Event RE ON C.name = RE.country
+GROUP BY C.name
+HAVING COUNT(RE.*) = 0
+
+SELECT C.name
+FROM Countries C
+LEFT JOIN Representant_medal_Event RE ON C.name = RE.country
+WHERE RE.country = NULL
