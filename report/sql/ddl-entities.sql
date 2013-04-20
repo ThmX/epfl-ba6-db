@@ -24,7 +24,7 @@ CREATE TABLE Sports (
 CREATE TABLE Games (
    id                    integer AUTO_INCREMENT,
    year                  integer(4),
-   is_summer             tinyint(1),
+   is_summer             boolean,
    host_country          integer NOT NULL,
    host_city             char(60) NOT NULL,
    PRIMARY KEY (id),
