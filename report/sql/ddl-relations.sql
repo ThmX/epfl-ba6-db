@@ -1,7 +1,7 @@
 CREATE TABLE Athletes_represent_Countries (
    athlete_id              integer,
    country_id              integer,
-   PRIMARY KEY (athlete, country),
+   PRIMARY KEY (athlete_id, country_id),
    FOREIGN KEY (athlete_id) REFERENCES Athletes (id),
    FOREIGN KEY (country_id) REFERENCES Countries (id)
 );
