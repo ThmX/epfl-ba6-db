@@ -1,79 +1,81 @@
--- Athletes (name : char(20), PRIMARY KEY (name))
--- Countries (name : char(20ß), ioc_code : char(6), PRIMARY KEY (name))
--- Sports (name : char(20), PRIMARY KEY (name))
+-- CREATE TABLE Athletes (
+--    id                    integer AUTO_INCREMENT,
+--    name                  char(255),
+--    PRIMARY KEY (id)
+-- );
 -- 
--- Games (
--- 	name                  char(20),
--- 	host_country          char(20) NOT NULL,
--- 	host_city             char(20) NOT NULL,
--- 	number_of_countries   integer(6),
--- 	number_of_athletes    integer(6),
--- 	number_of_events      integer(6),
--- 	PRIMARY KEY (name),
--- 	FOREIGN KEY (host_country) REFERENCES Countries (name)
--- )
+-- CREATE TABLE Countries (
+--    id                    integer AUTO_INCREMENT,
+--    name                  char(60),
+--    ioc_code              char(6),
+--    PRIMARY KEY (id)
+-- );
 -- 
--- Disciplines (name : char(20), sport : char(20),
--- 	PRIMARY KEY (name, sport),
--- 	FOREIGN KEY (sport) REFERENCES Sports (name) ON DELETE CASCADE
--- )
+-- CREATE TABLE Sports (
+--    id                    integer AUTO_INCREMENT,
+--    name                  char(60),
+--    PRIMARY KEY (id)
 -- 
--- Athletes_represent_Countries (
---    athlete              char(20),
---    country              char(20),
---    PRIMARY KEY (athlete, country),
---    FOREIGN KEY (athlete) REFERENCES Athletes (name),
---    FOREIGN KEY (country) REFERENCES Countries (name)
--- )
+-- );
 -- 
--- Athletes_performs_Discipline (
---    athlete              char(20),
---    discipline           char(20),
---    sport                char(20),
---    PRIMARY KEY (athlete, discipline, sport),
---    FOREIGN KEY (athlete) REFERENCES Athletes (name),
---    FOREIGN KEY (discipline, sport) REFERENCES Disciplines (name, sport)
--- )
+-- CREATE TABLE Games (
+--    id                    integer AUTO_INCREMENT,
+--    year                  integer(4),
+--    is_summer             tinyint(1),
+--    host_country          integer NOT NULL,
+--    host_city             char(60) NOT NULL,
+--    PRIMARY KEY (id),
+--    FOREIGN KEY (host_country) REFERENCES Countries (id)
+-- );
 -- 
--- Disciplines_event_Games (
---    name                 char(20),
---    discipline           char(20),
---    sport                char(20),
---    games                char(20),
---    PRIMARY KEY (discipline, sport, games),
---    FOREIGN KEY (discipline, sport) REFERENCES Disciplines (name, sport),
---    FOREIGN KEY (games) REFERENCES Games (name)
--- )
+-- CREATE TABLE Disciplines (
+--    id                    integer AUTO_INCREMENT,
+--    name                  char(100),
+--    sport                 integer NOT NULL,
+--    PRIMARY KEY (id),
+--    FOREIGN KEY (sport) REFERENCES Sports (id)
+--       ON DELETE CASCADE
+-- );
+
+-- CREATE TABLE Athletes_represent_Countries (
+--    athlete_id              integer,
+--    country_id              integer,
+--    PRIMARY KEY (athlete_id, country_id),
+--    FOREIGN KEY (athlete_id) REFERENCES Athletes (id),
+--    FOREIGN KEY (country_id) REFERENCES Countries (id)
+-- );
 -- 
--- Representant_participates_Event (
---    athlete              char(20),
---    country              char(20),
---    discipline           char(20),
---    sport                char(20),
---    olympics             char(20),
---    PRIMARY KEY (athlete, country, discipline, olympics),
---    FOREIGN KEY (athlete, country) REFERENCES Athletes_represent_Countries (athlete, country),
---    FOREIGN KEY (discipline, sport, olympics) REFERENCES Disciplines_event_Games (discipline, sport, games)
--- )
+-- CREATE TABLE Disciplines_event_Games (
+--    discipline_id           integer,
+--    games_id                integer,
+--    PRIMARY KEY (discipline_id, games_id),
+--    FOREIGN KEY (discipline_id) REFERENCES Disciplines (id),
+--    FOREIGN KEY (games_id) REFERENCES Games (id)
+-- );
 -- 
--- Representant_medal_Event (
---    medalist             char(20),
---    country              char(20),
---    medal                char(20),
---    discipline           char(20),
---    sport                char(20),
---    olympics             char(20),
---    PRIMARY KEY (medalist, country, discipline, olympics),
---    FOREIGN KEY (medalist, country) REFERENCES Athletes_represent_Countries (athlete, country),
---    FOREIGN KEY (discipline, sport, olympics) REFERENCES Disciplines_event_Games (discipline, sport, games)
--- )
+-- -- Here Event is a shortcut to table Disciplines_event_Games
+-- 
+-- CREATE TABLE Representant_participates_Event (
+--    athlete_id              integer,
+--    country_id              integer,
+--    discipline_id           integer,
+--    games_id                integer,
+--    ranking                 tinyint(2),
+--    PRIMARY KEY (athlete_id, country_id, discipline_id, games_id),
+--    FOREIGN KEY (athlete_id, country_id) REFERENCES Athletes_represent_Countries (athlete_id, country_id),
+--    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
+-- );
 
 -- For each Olympic Games print the name of the country with the most participants.
 
--- SELECT max_country
--- FROM (	
--- 	SELECT RPE.country AS max_country, COUNT(RPE.country) AS nb_participants_for_country, RPE.olympics
--- 	FROM Representant_participates_Event RPE
--- 	GROUP BY RPE.country, RPE.olympics
--- 	ORDER BY nb_participants_for_country DESC
--- ) AS max_country_table
+SELECT G.year, C.name
+FROM Games G, Countries C
+WHERE C.id = (
+  SELECT RE.country_id
+  FROM Representant_participates_Event RE
+  WHERE RE.games_id = G.id
+  GROUP BY RE.country_id
+  ORDER BY COUNT(RE.country_id) DESC
+  LIMIT 1
+)
+GROUP BY G.id

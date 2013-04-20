@@ -1,11 +1,9 @@
--- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Athletes (
    id                    integer AUTO_INCREMENT,
    name                  char(255),
    PRIMARY KEY (id)
 );
 
--- Note : Could not force the participation constraint to Athletes.
 CREATE TABLE Countries (
    id                    integer AUTO_INCREMENT,
    name                  char(60),
@@ -13,7 +11,6 @@ CREATE TABLE Countries (
    PRIMARY KEY (id)
 );
 
--- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Sports (
    id                    integer AUTO_INCREMENT,
    name                  char(60),
@@ -34,8 +31,8 @@ CREATE TABLE Games (
 CREATE TABLE Disciplines (
    id                    integer AUTO_INCREMENT,
    name                  char(100),
-   sport                 integer NOT NULL,
+   sport_id                 integer NOT NULL,
    PRIMARY KEY (id),
-   FOREIGN KEY (sport) REFERENCES Sports (id)
+   FOREIGN KEY (sport_id) REFERENCES Sports (id)
       ON DELETE CASCADE
 );
