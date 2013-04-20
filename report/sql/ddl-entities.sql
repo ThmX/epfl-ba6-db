@@ -1,13 +1,13 @@
 -- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Athletes (
-   id                    integer,
+   id                    integer AUTO_INCREMENT,
    name                  char(255),
    PRIMARY KEY (id)
 );
 
 -- Note : Could not force the participation constraint to Athletes.
 CREATE TABLE Countries (
-   id                    integer,
+   id                    integer AUTO_INCREMENT,
    name                  char(60),
    ioc_code              char(6),
    PRIMARY KEY (id)
@@ -15,14 +15,14 @@ CREATE TABLE Countries (
 
 -- Note : Could not force the participation constraint to Disciplines.
 CREATE TABLE Sports (
-   id                    integer,
+   id                    integer AUTO_INCREMENT,
    name                  char(60),
    PRIMARY KEY (id)
 
 );
 
 CREATE TABLE Games (
-   id                    integer,
+   id                    integer AUTO_INCREMENT,
    year                  integer(4),
    is_summer             tinyint(1),
    host_country          integer NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE Games (
 );
 
 CREATE TABLE Disciplines (
-   id                    integer,
+   id                    integer AUTO_INCREMENT,
    name                  char(100),
    sport                 integer NOT NULL,
    PRIMARY KEY (id),
