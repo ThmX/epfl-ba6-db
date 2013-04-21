@@ -1,0 +1,32 @@
+@(title: String, subtitle:String, call: Call, cancel: Call, formField: Form[_], fields: List[(Symbol, String, String, Option[Seq[(String, String)]])])(implicit flash: Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+
+@main(title, subtitle) {
+	@form(call) {
+		<fieldset>
+			@for(field <- fields) {
+				@field match {
+					case ('input, name, label, opts) => {
+						@inputText(formField(name.toString), '_label -> label)
+					}
+					case ('select, name, label, opts) => {
+						@select(
+							formField(name),
+							opts.get,
+							'_label -> label,
+							'_showConstraints -> false
+						)
+					}
+				}
+			}
+		</fieldset>
+
+		<div class="actions ">
+			<input type="submit" value="Update" class="btn primary"> or <a href="@cancel" class="btn">Cancel</a> 
+		</div>
+		
+	}
+}

@@ -1,0 +1,38 @@
+@(entities: List[((Discipline, Sport), (Game, Country))])(implicit flash: Flash)
+
+@controller = @{ routes.EventDGController }
+
+@main("Relations", "Events") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Disciplines_event_Games (
+   discipline_id           integer,
+   games_id                integer,
+   PRIMARY KEY (discipline_id, games_id),
+   FOREIGN KEY (discipline_id) REFERENCES Disciplines (id),
+   FOREIGN KEY (games_id) REFERENCES Games (id)
+)
+</pre>
+
+	<h5>List of events:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+	} else {
+		<table>
+			<tr>
+				<th>Discipline</th>
+				<th>Game</th>
+				<th><a class="btn" href="@controller.add">Insert new event</a></th>
+			</tr>
+			
+			@for(((d, s), (g, c)) <- entities) {
+				<tr>
+					<td>@s - @d</td>
+					<td>@g</td>
+					<td><a href="@controller.delete(d.id.get, g.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}

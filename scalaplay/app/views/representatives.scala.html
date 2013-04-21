@@ -1,0 +1,38 @@
+@(entities: List[(Athlete, Country)])(implicit flash: Flash)
+
+@controller = @{ routes.RepresentativeController }
+
+@main("Relations", "Representatives") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Athletes_represent_Countries (
+   athlete_id              integer,
+   country_id              integer,
+   PRIMARY KEY (athlete_id, country_id),
+   FOREIGN KEY (athlete_id) REFERENCES Athletes (id),
+   FOREIGN KEY (country_id) REFERENCES Countries (id)
+)
+</pre>
+
+	<h5>List of representatives:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+	} else {
+		<table>
+			<tr>
+				<th>Athlete</th>
+				<th>Country</th>
+				<th><a class="btn" href="@controller.add">Insert new represent</a></th>
+			</tr>
+			
+			@for((a, c) <- entities) {
+				<tr>
+					<td>@a.name</td>
+					<td>@c.name</td>
+					<td><a href="@controller.delete(a.id.get, c.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}

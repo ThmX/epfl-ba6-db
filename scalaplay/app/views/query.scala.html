@@ -1,0 +1,14 @@
+@(query: Query, dicts: List[Map[String, _]])(implicit flash: Flash)
+
+@main("Queries", query.name) {
+	<h5>Description:</h5>
+	<p>@query.desc</p>
+	
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+@query.query
+</pre>
+	
+	<h5>Result:</h5>
+	@table(query.keys, dicts)
+}

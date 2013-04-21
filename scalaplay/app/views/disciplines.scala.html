@@ -1,0 +1,43 @@
+@(entities: List[(Discipline, Sport)])(implicit flash: Flash)
+
+@controller = @{ routes.DisciplineController }
+
+@main("Entities", "Disciplines") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Disciplines (
+   id                    integer AUTO_INCREMENT,
+   name                  char(100),
+   sport_id                 integer NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (sport_id) REFERENCES Sports (id)
+      ON DELETE CASCADE
+)
+</pre>
+
+	<h5>List of disciplines:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+		<a class="btn" href="@controller.add">Insert new discipline</a>
+	} else {
+		<table>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>sport</th>
+				<th colspan="2"><a class="btn" href="@controller.add">Insert new discipline</a></th>
+			</tr>
+			
+			@for((d, s) <- entities) {
+				<tr>
+					<td>@d.id</td>
+					<td>@d.name</td>
+					<td>@s.name</td>
+					<td><a href="@controller.edit(d.id.get)">edit</a></td>
+					<td><a href="@controller.delete(d.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}

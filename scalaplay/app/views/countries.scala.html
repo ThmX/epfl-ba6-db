@@ -1,0 +1,41 @@
+@(countries: List[Country])(implicit flash: Flash)
+
+@controller = @{ routes.CountryController }
+
+@main("Entities", "Countries") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Countries (
+   id                    integer AUTO_INCREMENT,
+   name                  char(60),
+   ioc_code              char(6),
+   PRIMARY KEY (id)
+)
+</pre>
+
+	<h5>List of countries:</h5>
+	@if(countries.isEmpty) {
+		<h4>Empty</h4>
+		<a class="btn" href="@controller.add">Insert new country</a>
+	} else {
+		<table>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th>ioc_code</th>
+				<th colspan="2"><a class="btn" href="@controller.add">Insert new country</a></th>
+			</tr>
+			
+			@for(country <- countries) {
+				<tr>
+					<td>@country.id</td>
+					<td>@country.name</td>
+					<td>@country.ioc_code</td>
+					<td><a href="@controller.edit(country.id.get)">edit</a></td>
+					<td><a href="@controller.delete(country.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}

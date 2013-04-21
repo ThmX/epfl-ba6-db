@@ -1,0 +1,38 @@
+@(entities: List[Sport])(implicit flash: Flash)
+
+@controller = @{ routes.SportController }
+
+@main("Entities", "Sports") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Sports (
+   id                    integer AUTO_INCREMENT,
+   name                  char(60),
+   PRIMARY KEY (id)
+)
+</pre>
+
+	<h5>List of sports:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+		<a class="btn" href="@controller.add">Insert new sport</a>
+	} else {
+		<table>
+			<tr>
+				<th>id</th>
+				<th>name</th>
+				<th colspan="2"><a class="btn" href="@controller.add">Insert new sport</a></th>
+			</tr>
+			
+			@for(entity <- entities) {
+				<tr>
+					<td>@entity.id</td>
+					<td>@entity.name</td>
+					<td><a href="@controller.edit(entity.id.get)">edit</a></td>
+					<td><a href="@controller.delete(entity.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}

@@ -1,0 +1,52 @@
+@(entities: List[(Game, Country)])(implicit flash: Flash)
+
+@controller = @{ routes.GameController }
+
+@main("Entities", "Games") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Games (
+   id                    integer AUTO_INCREMENT,
+   year                  integer(4),
+   is_summer             boolean,
+   host_country          integer NOT NULL,
+   host_city             char(60) NOT NULL,
+   PRIMARY KEY (id),
+   FOREIGN KEY (host_country) REFERENCES Countries (id)
+)
+</pre>
+
+	<h5>List of games:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+		<a class="btn" href="@controller.add">Insert new game</a>
+	} else {
+		<table>
+			<tr>
+				<th>id</th>
+				<th>year</th>
+				<th>Season</th>
+				<th>City</th>
+				<th>Country</th>
+				<th colspan="2"><a class="btn" href="@controller.add">Insert new game</a></th>
+			</tr>
+			
+			@for((g, c) <- entities) {
+				<tr>
+					<td>@g.id</td>
+					<td>@g.year</td>
+					@if(g.summer) {
+						<td>Summer</td>
+					} else {
+						<td>Winter</td>
+					}
+					<td>@g.city</td>
+					<td>@c.name</td>
+					<td><a href="@controller.edit(g.id.get)">edit</a></td>
+					<td><a href="@controller.delete(g.id.get)">delete</a></td>
+				</tr>
+			}
+		</table>
+	}
+}
