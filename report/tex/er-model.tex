@@ -15,9 +15,11 @@
 
 \chapter{Entity–relationship model}
 
-\begin{center}
-	\fbox{\includegraphics[width=0.6\textwidth]{er-model}}
-\end{center}
+\begin{figure}[h!]
+	\centering
+	\fbox{\includegraphics[width=0.5\textwidth]{er-model-old}}
+	\caption{Previous ER Model.\label{fig:er-model-old}}
+\end{figure}
 
 From the analysis of the Dataset, here are our assumptions:
 
@@ -31,6 +33,16 @@ From the analysis of the Dataset, here are our assumptions:
 	\item[$\circ$] A \textit{Participant} is formed by both a \textit{Representant} and an \textit{Event}.
 \end{itemize}
 
+\section*{Changes since deliverable 1}
+After the first deliverable, we have made some simplifications to our model.
+There are still two aggregations standing for a representative (\textbf{athlete} and \textbf{country}) and an event (\textbf{discipline} and \textbf{games}). These aggregations are bonded by the relation \textit{Representant\_participates\_Event} which models the participation from a representative to a \textbf{discipline}.
+We have removed the other relations between them because there is only redundant information and we can put the medal attribute in the participation relation.
+
+\begin{figure}[h!]
+	\centering
+	\fbox{\includegraphics[width=0.8\textwidth]{er-model}}
+	\caption{New ER Model.\label{fig:er-model}}
+\end{figure}
 
 
 %------------------------------------------------------------------------------

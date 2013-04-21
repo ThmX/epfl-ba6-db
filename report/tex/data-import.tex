@@ -1,0 +1,28 @@
+%------------------------------------------------------------------------------
+%  data-import.tex
+%------------------------------------------------------------------------------
+%
+%	BA6 - Database systems
+%
+%	Authors :
+%		203267 - Bastien Antoine
+%		183785 - Denoréaz Thomas
+%		185078 - Dieulivol David
+%
+%	Versions :
+%		2013.03.30 - Initial version
+%
+
+\chapter{Data importation}
+
+The main issue that appeared while importing the data is that we cannot have the discipline for each athlete. This is problematical for the relation \textit{Representant\_participates\_Event}. There is information in the csv files about the sport that practices each athlete but the sport cannot define an event. So we have decided not to set the discipline as a primary key so that all non- medalists can still be stored in the database.
+
+\begin{center}
+	\lstinputlisting[language=Ruby, caption={Ruby importation script}]{scripts/import_script.rb}
+\end{center}
+
+
+
+%------------------------------------------------------------------------------
+% END OF DOCUMENT
+%------------------------------------------------------------------------------
