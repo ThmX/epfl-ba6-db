@@ -16,20 +16,20 @@ object Representative {
   
   val table = "Athletes_represent_Countries"
 
-  val simple = {
+  lazy val simple = {
     Athlete.simple ~ Country.simple map {
       case athlete ~ country => (athlete, country)
     }
   }
 
-  val form = Form(
+  lazy val form = Form(
     mapping(
       "athlete_id" -> longNumber,
       "country_id" -> longNumber
     )(Representative.apply)(Representative.unapply)
   )
 
-  val fields = List(
+  lazy val fields = List(
     ('select, "athlete_id", "Athlete", Some(Athlete.options)),
     ('select, "country_id", "Country", Some(Country.options))
   )
@@ -37,7 +37,9 @@ object Representative {
   def list = DB.withConnection { implicit connection =>
     SQL("""SELECT *
     		FROM Athletes_represent_Countries AC, Countries C, Athletes A
-    		WHERE AC.athlete_id = A.id and AC.country_id = C.id"""
+    		WHERE AC.athlete_id = A.id and AC.country_id = C.id
+    		LIMIT 20
+        """
     ).as(simple *)
   }
 

@@ -1,14 +1,12 @@
-@(query: Query, dicts: List[Map[String, _]])(implicit flash: Flash)
+@(query: Query, time: Long, dicts: List[Map[String, _]])(implicit flash: Flash)
 
 @main("Queries", query.name) {
 	<h5>Description:</h5>
 	<p>@query.desc</p>
 	
 	<h5>SQL statement:</h5>
-<pre class="brush: sql; class-name: 'sql_highlight'">
-@query.query
-</pre>
+	<pre class="brush: sql; class-name: 'sql_highlight'">@query.query</pre>
 	
-	<h5>Result:</h5>
-	@table(query.keys, dicts)
+	<h5>Result (executed in @time ms):</h5>
+	@table(dicts)
 }

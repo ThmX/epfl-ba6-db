@@ -16,21 +16,21 @@ case class Athlete(id: Pk[Long] = NotAssigned, name: String) {
 
 object Athlete extends Entity[Athlete, Athlete]("Athletes") {
 
-  val simple = {
+  lazy val simple = {
     get[Pk[Long]](table + ".id") ~
       get[String](table + ".name") map {
         case id ~ name => Athlete(id, name)
       }
   }
 
-  override val form = Form(
+  override lazy val form = Form(
     mapping(
       "id" -> ignored(NotAssigned: Pk[Long]),
       "name" -> nonEmptyText
     )(Athlete.apply)(Athlete.unapply)
   )
 
-  override val fields = List(
+  override lazy val fields = List(
     ('input, "name", "Name", None)
   )
 
@@ -40,8 +40,16 @@ object Athlete extends Entity[Athlete, Athlete]("Athletes") {
     ).as(simple.singleOpt)
   }
 
-  override def list = DB.withConnection { implicit connection =>
-    SQL("select * from " + table).as(simple *)
+  override def list(page: Int = 0, pageSize: Int = 10) = DB.withConnection { implicit connection =>
+    val offest = pageSize * page
+    Page(
+      SQL("select * from " + table + " limit {pageSize} offset {offset}").on(
+        'pageSize -> pageSize,
+        'offset -> offest
+      ).as(simple *),
+      page,
+      pageSize
+    )
   }
 
   override def insert(that: Athlete) = DB.withConnection { implicit connection =>

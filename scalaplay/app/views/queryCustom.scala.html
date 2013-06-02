@@ -1,0 +1,35 @@
+@(query: String, page: Int, pageSize: Long, time: Long, dicts: List[Map[String, _]])(implicit flash: Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main("Queries", "Custom Query") {
+
+	<h5>SQL Statement:</h5>
+	@form(routes.QueriesController.custom) {
+		<textarea id="code" name="query">@query</textarea>
+		<script>
+		  var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+		    mode: "text/x-mysql",
+		    indentWithTabs: true,
+		    smartIndent: true,
+		    lineNumbers: true,
+		    matchBrackets : true,
+		    autofocus: true,
+		    theme: "lesser-dark"
+		  });
+		</script>
+
+		<div class="actions ">
+			page <input id="page" name="page" value="@page" style="width: 60px" />
+			pageSize <input id="pageSize" name="pageSize" value="@pageSize" style="width: 60px" />
+			<input type="submit" value="Query" class="btn primary"> 
+		</div>
+	}
+	
+	@if(dicts != null) {
+		<h5>Result (executed in @time ms):</h5>
+		@table(dicts)
+	}
+}

@@ -18,7 +18,7 @@ case class Game(id: Pk[Long] = NotAssigned, year: Int, summer: Boolean, city: St
 
 object Game extends Entity[Game, (Game, Country)]("Games") {
 
-  val simple = {
+  lazy val simple = {
     get[Pk[Long]](table + ".id") ~
       get[Int](table + ".year") ~
       get[Boolean](table + ".is_summer") ~
@@ -28,7 +28,7 @@ object Game extends Entity[Game, (Game, Country)]("Games") {
       }
   }
 
-  val withCountry = {
+  lazy val withCountry = {
     Game.simple ~ Country.simple map {
       case game ~ country => (game, country)
     }
@@ -57,13 +57,21 @@ object Game extends Entity[Game, (Game, Country)]("Games") {
     ).as(simple.singleOpt)
   }
 
-  override def list = DB.withConnection { implicit connection =>
-    SQL(
-      """
+  override def list(page: Int = 0, pageSize: Int = 10) = DB.withConnection { implicit connection =>
+    val offest = pageSize * page
+    Page(
+      SQL(
+        """
         SELECT * FROM %s G, %s C
     		WHERE G.host_country = C.id
-        """.format(Game.table, Country.table)
-    ).as(withCountry *)
+    	LIMIT {pageSize} OFFSET {offset}
+        """.format(Game.table, Country.table)).on(
+          'pageSize -> pageSize,
+          'offset -> offest
+        ).as(withCountry *),
+      page,
+      pageSize
+    )
   }
 
   override def insert(that: Game) = DB.withConnection { implicit connection =>
@@ -92,7 +100,7 @@ object Game extends Entity[Game, (Game, Country)]("Games") {
   }
 
   override def options = DB.withConnection { implicit connection =>
-    SQL("select * from " + table + " order by name").as(withCountry *).map(
+    SQL("select * from %s G, %s C where G.host_country = C.id order by G.year".format(table, Country.table)).as(withCountry *).map(
       c => c._1.id.toString -> c._1.toString
     )
   }

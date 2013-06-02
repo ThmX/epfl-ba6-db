@@ -1,4 +1,4 @@
-@(entities: List[(Discipline, Sport)])(implicit flash: Flash)
+@(page: Page[List[(Discipline, Sport)]])(implicit flash: Flash)
 
 @controller = @{ routes.DisciplineController }
 
@@ -9,15 +9,16 @@
 CREATE TABLE Disciplines (
    id                    integer AUTO_INCREMENT,
    name                  char(100),
-   sport_id                 integer NOT NULL,
+   sport_id              integer NOT NULL,
    PRIMARY KEY (id),
+   UNIQUE (name),
    FOREIGN KEY (sport_id) REFERENCES Sports (id)
       ON DELETE CASCADE
 )
 </pre>
 
 	<h5>List of disciplines:</h5>
-	@if(entities.isEmpty) {
+	@if(page.items.isEmpty) {
 		<h4>Empty</h4>
 		<a class="btn" href="@controller.add">Insert new discipline</a>
 	} else {
@@ -26,10 +27,14 @@ CREATE TABLE Disciplines (
 				<th>id</th>
 				<th>name</th>
 				<th>sport</th>
-				<th colspan="2"><a class="btn" href="@controller.add">Insert new discipline</a></th>
+				<th colspan="2">
+					<a class="btn" href="@controller.list(page.prev)">&lt;</a>
+					<a class="btn primary" href="@controller.add">Insert new discipline</a>
+					<a class="btn" href="@controller.list(page.next)">&gt;</a>
+				</th>
 			</tr>
 			
-			@for((d, s) <- entities) {
+			@for((d, s) <- page.items) {
 				<tr>
 					<td>@d.id</td>
 					<td>@d.name</td>

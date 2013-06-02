@@ -16,7 +16,7 @@ case class Sport(id: Pk[Long] = NotAssigned, name: String) {
 
 object Sport extends Entity[Sport, Sport]("Sports") {
 
-  val simple = {
+  lazy val simple = {
     get[Pk[Long]](table + ".id") ~
       get[String](table + ".name") map {
         case id ~ name => Sport(id, name)
@@ -33,15 +33,23 @@ object Sport extends Entity[Sport, Sport]("Sports") {
   override def fields = List(
     ('input, "name", "Name", None)
   )
-  
+
   override def findById(id: Long) = DB.withConnection { implicit connection =>
     SQL("select * from " + table + " where id = {id}").on(
       'id -> id
     ).as(simple.singleOpt)
   }
 
-  override def list = DB.withConnection { implicit connection =>
-    SQL("select * from " + table).as(simple *)
+  override def list(page: Int = 0, pageSize: Int = 10) = DB.withConnection { implicit connection =>
+    val offest = pageSize * page
+    Page(
+      SQL("select * from " + table + " limit {pageSize} offset {offset}").on(
+        'pageSize -> pageSize,
+        'offset -> offest
+      ).as(simple *),
+      page,
+      pageSize
+    )
   }
 
   override def insert(that: Sport) = DB.withConnection { implicit connection =>
@@ -56,7 +64,7 @@ object Sport extends Entity[Sport, Sport]("Sports") {
       'name -> that.name
     ).executeUpdate()
   }
-  
+
   override def delete(id: Long) = DB.withConnection { implicit connection =>
     SQL("delete from " + table + " where id = {id}").on(
       'id -> id

@@ -2,25 +2,26 @@
 	<li><a href="@routes.Application.index">Home</a></li>
 </ul>
 
-<p>Queries</p>
-<ul>
-	@for(c <- 'A' to 'H') {
-		<li><a href="@routes.QueriesController.query(c - 'A')">Queries @c</a></li>
-	}
-</ul>
-
 <p>Entities</p>
 <ul>
-	<li><a href="@routes.AthleteController.list">Athletes</a></li>
-	<li><a href="@routes.CountryController.list">Countries</a></li>
-	<li><a href="@routes.DisciplineController.list">Disciplines</a></li>
-	<li><a href="@routes.GameController.list">Games</a></li>
-	<li><a href="@routes.SportController.list">Sports</a></li>
+	<li><a href="@routes.AthleteController.list(0, 20)">Athletes</a></li>
+	<li><a href="@routes.CountryController.list(0, 20)">Countries</a></li>
+	<li><a href="@routes.DisciplineController.list(0, 20)">Disciplines</a></li>
+	<li><a href="@routes.GameController.list(0, 20)">Games</a></li>
+	<li><a href="@routes.SportController.list(0, 20)">Sports</a></li>
 </ul>
 
 <p>Relations</p>
 <ul>
 	<li><a href="@routes.EventDGController.list">Events</a></li>
 	<li><a href="@routes.RepresentativeController.list">Representatives</a></li>
-	<li><a href="@routes.RepresentativeController.list">Participants</a></li>
+	<li><a href="@routes.ParticipantController.list">Participants</a></li>
+</ul>
+
+<p>Queries</p>
+<ul>
+	<li><a href="@routes.QueriesController.custom">Custom Query</a></li>
+	@for(c <- 'A' to 'V') {
+		<li><a href="@routes.QueriesController.query(c - 'A')">Queries @c</a></li>
+	}
 </ul>

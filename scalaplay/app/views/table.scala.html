@@ -1,18 +1,18 @@
-@(keys: List[String], dicts: List[Map[String, _]])
+@(dicts: List[Map[String, _]])
 
 @if(dicts.isEmpty) {
 	<h4>Empty</h4>
 } else {
 	<table>
 		<tr>
-			@for(key <- keys) {
+			@for(key <- dicts.head.keys.toList) {
 				<th>@key</th>
 			}
 		</tr>
 		
 		@for(dict <- dicts) {
 			<tr>
-				@for(key <- keys) {
+				@for(key <- dicts.head.keys.toList) {
 					<td>@dict(key)</td>
 				}
 			</tr>

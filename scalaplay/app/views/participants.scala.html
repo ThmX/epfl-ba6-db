@@ -1,0 +1,49 @@
+@(entities: List[(Athlete, Country, Discipline, Game, Int)])(implicit flash: Flash)
+
+@controller = @{ routes.ParticipantController }
+
+@main("Relations", "Participants") {
+
+	<h5>SQL statement:</h5>
+<pre class="brush: sql; class-name: 'sql_highlight'">
+CREATE TABLE Representant_participates_Event (
+   athlete_id              integer,
+   country_id              integer,
+   discipline_id           integer,
+   games_id                integer,
+   ranking                 tinyint(2),
+      PRIMARY KEY (athlete_id, country_id, games_id),
+   FOREIGN KEY (athlete_id, country_id) REFERENCES Athletes_represent_Countries (athlete_id, country_id),
+   FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
+)
+</pre>
+
+	<h5>List of participants:</h5>
+	@if(entities.isEmpty) {
+		<h4>Empty</h4>
+	} else {
+		<table>
+			<tr>
+				<th>Athlete</th>
+				<th>Country</th>
+				<th>Discipline</th>
+				<th>Game</th>
+				<th>Ranking</th>
+				<th><a class="btn" href="@controller.add">Insert new participant</a></th>
+			</tr>
+			
+			@for((a, c, d, g, r) <- entities) {
+				<tr>
+					<td>@a</td>
+					<td>@c</td>
+					<td>@d</td>
+					<td>@g</td>
+					<td>@r</td>
+					<td>
+						delete
+					</td>
+				</tr>
+			}
+		</table>
+	}
+}

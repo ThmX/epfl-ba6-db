@@ -1,0 +1,28 @@
+@(query: Query, time: Long, formField: Form[_], opts: Seq[(String, String)], dicts: List[Map[String, _]])(implicit flash: Flash)
+
+@import helper._
+
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
+
+@main("Queries", query.name) {
+	<h5>Description:</h5>
+	<p>@query.desc</p>
+	
+	<h5>SQL statement:</h5>
+	<pre class="brush: sql; class-name: 'sql_highlight'">@query.query</pre>
+	
+	@form(routes.QueriesController.query(8)) {
+		<fieldset>
+			@select(
+				formField("game"),
+				opts,
+				'_label -> "Game",
+				'_showConstraints -> false
+			)
+			<input type="submit" value="Query" class="btn primary">
+		</fieldset>
+	}
+	
+	<h5>Result (executed in @time ms):</h5>
+	@table(dicts)
+}

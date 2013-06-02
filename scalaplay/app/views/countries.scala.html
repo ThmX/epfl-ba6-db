@@ -1,4 +1,4 @@
-@(countries: List[Country])(implicit flash: Flash)
+@(page: Page[List[Country]])(implicit flash: Flash)
 
 @controller = @{ routes.CountryController }
 
@@ -10,12 +10,13 @@ CREATE TABLE Countries (
    id                    integer AUTO_INCREMENT,
    name                  char(60),
    ioc_code              char(6),
-   PRIMARY KEY (id)
+   PRIMARY KEY (id),
+   UNIQUE (name)
 )
 </pre>
 
 	<h5>List of countries:</h5>
-	@if(countries.isEmpty) {
+	@if(page.items.isEmpty) {
 		<h4>Empty</h4>
 		<a class="btn" href="@controller.add">Insert new country</a>
 	} else {
@@ -24,10 +25,14 @@ CREATE TABLE Countries (
 				<th>id</th>
 				<th>name</th>
 				<th>ioc_code</th>
-				<th colspan="2"><a class="btn" href="@controller.add">Insert new country</a></th>
+				<th colspan="2">
+					<a class="btn" href="@controller.list(page.prev)">&lt;</a>
+					<a class="btn primary" href="@controller.add">Insert new country</a>
+					<a class="btn" href="@controller.list(page.next)">&gt;</a>
+				</th>
 			</tr>
 			
-			@for(country <- countries) {
+			@for(country <- page.items) {
 				<tr>
 					<td>@country.id</td>
 					<td>@country.name</td>

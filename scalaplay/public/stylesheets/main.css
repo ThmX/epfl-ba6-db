@@ -1,4 +1,5 @@
-html,body,pre {
+html,body {
+	height:100%;
 	margin: 0;
 	padding: 0;
 	background: #ECECEC;
@@ -35,9 +36,9 @@ a:hover {
 	float: left;
 	width: 150px;
 	min-height: 100%;
-	color: #fff;
+	color: #FFFFFF;
 	border-right: 1px solid #14567A;
-	background: rgb(33, 101, 139);  
+	background: rgb(33, 101, 139);
 	text-shadow: 1px 1px 1px rgba(0, 0, 0, .3);
 }
 
@@ -77,6 +78,11 @@ a:hover {
 }
 
 .body {
+	height: 100%;
+	width: 100%;
+}
+
+.bodycontent {
 	margin-left: 150px;
 }
 

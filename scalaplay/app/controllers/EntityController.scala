@@ -14,13 +14,13 @@ import play.api.templates.Html
 
 abstract class EntityController[T, L](val entity: Entity[T, L]) extends Controller {
 
-  def template(list: List[L])(implicit flash: Flash): Html
+  def template(list: Page[List[L]])(implicit flash: Flash): Html
   def routeList: Call
   def routeSave: Call
   def routeUpdate: Long => Call
-
-  def list = Action { implicit request =>
-    Ok(template(entity.list))
+  
+  def list(page: Int, size: Int) = Action { implicit request =>
+    Ok(template(entity.list(page, size)))
   }
 
   def addForm(form: Form[_])(implicit flash: Flash) = html.insertForm(
@@ -89,18 +89,18 @@ abstract class EntityController[T, L](val entity: Entity[T, L]) extends Controll
 
 object AthleteController extends EntityController[Athlete, Athlete](Athlete) {
   
-  override def template(list: List[Athlete])(implicit flash: Flash): Html = views.html.athletes.apply(list)(flash)
+  override def template(list: Page[List[Athlete]])(implicit flash: Flash): Html = views.html.athletes.apply(list)(flash)
   
-  override def routeList = routes.AthleteController.list
+  override def routeList = routes.AthleteController.list(0, 20)
   override def routeSave = routes.AthleteController.save
   override def routeUpdate = routes.AthleteController.update
 }
 
 object CountryController extends EntityController[Country, Country](Country) {
 
-  override def template(list: List[Country])(implicit flash: Flash): Html = views.html.countries.apply(list)(flash)
+  override def template(list: Page[List[Country]])(implicit flash: Flash): Html = views.html.countries.apply(list)(flash)
 
-  override def routeList = routes.CountryController.list
+  override def routeList = routes.CountryController.list(0, 20)
   override def routeSave = routes.CountryController.save
   override def routeUpdate = routes.CountryController.update
 
@@ -108,9 +108,9 @@ object CountryController extends EntityController[Country, Country](Country) {
 
 object SportController extends EntityController[Sport, Sport](Sport) {
 
-  override def template(list: List[Sport])(implicit flash: Flash): Html = views.html.sports.apply(list)(flash)
+  override def template(list: Page[List[Sport]])(implicit flash: Flash): Html = views.html.sports.apply(list)(flash)
 
-  override def routeList = routes.SportController.list
+  override def routeList = routes.SportController.list(0, 20)
   override def routeSave = routes.SportController.save
   override def routeUpdate = routes.SportController.update
 
@@ -118,9 +118,9 @@ object SportController extends EntityController[Sport, Sport](Sport) {
 
 object DisciplineController extends EntityController[Discipline, (Discipline, Sport)](Discipline) {
 
-  override def template(list: List[(Discipline, Sport)])(implicit flash: Flash): Html = views.html.disciplines.apply(list)(flash)
+  override def template(list: Page[List[(Discipline, Sport)]])(implicit flash: Flash): Html = views.html.disciplines.apply(list)(flash)
 
-  override def routeList = routes.DisciplineController.list
+  override def routeList = routes.DisciplineController.list(0, 20)
   override def routeSave = routes.DisciplineController.save
   override def routeUpdate = routes.DisciplineController.update
 
@@ -128,9 +128,9 @@ object DisciplineController extends EntityController[Discipline, (Discipline, Sp
 
 object GameController extends EntityController[Game, (Game, Country)](Game) {
 
-  override def template(list: List[(Game, Country)])(implicit flash: Flash): Html = views.html.games.apply(list)(flash)
+  override def template(list: Page[List[(Game, Country)]])(implicit flash: Flash): Html = views.html.games.apply(list)(flash)
 
-  override def routeList = routes.GameController.list
+  override def routeList = routes.GameController.list(0, 20)
   override def routeSave = routes.GameController.save
   override def routeUpdate = routes.GameController.update
 

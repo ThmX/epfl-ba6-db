@@ -16,7 +16,7 @@ case class Country(id: Pk[Long] = NotAssigned, name: String, ioc_code: String) {
 
 object Country extends Entity[Country, Country]("Countries") {
 
-  val simple = {
+  lazy val simple = {
     get[Pk[Long]](table + ".id") ~
       get[String](table + ".name") ~
       get[String](table + ".ioc_code") map {
@@ -36,15 +36,23 @@ object Country extends Entity[Country, Country]("Countries") {
     ('input, "name", "Name", None),
     ('input, "ioc_code", "IOC Code", None)
   )
-  
+
   override def findById(id: Long) = DB.withConnection { implicit connection =>
     SQL("select * from " + table + " where id = {id}").on(
       'id -> id
     ).as(simple.singleOpt)
   }
 
-  override def list = DB.withConnection { implicit connection =>
-    SQL("select * from " + table).as(simple *)
+  override def list(page: Int = 0, pageSize: Int = 10) = DB.withConnection { implicit connection =>
+    val offest = pageSize * page
+    Page(
+      SQL("select * from " + table + " limit {pageSize} offset {offset}").on(
+        'pageSize -> pageSize,
+        'offset -> offest
+      ).as(simple *),
+      page,
+      pageSize
+    )
   }
 
   override def insert(that: Country) = DB.withConnection { implicit connection =>
@@ -63,7 +71,7 @@ object Country extends Entity[Country, Country]("Countries") {
         'ioc_code -> that.ioc_code
       ).executeUpdate()
   }
-  
+
   override def delete(id: Long) = DB.withConnection { implicit connection =>
     SQL("delete from " + table + " where id = {id}").on(
       'id -> id

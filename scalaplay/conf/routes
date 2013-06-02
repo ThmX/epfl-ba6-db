@@ -5,13 +5,12 @@
 # Home page
 GET     /                           controllers.Application.index
 
-GET     /todo                       controllers.Application.todo
-
-GET     /queries                    controllers.QueriesController.index
-GET     /queries/:id                controllers.QueriesController.query(id: Int)
+GET     /queries/custom             controllers.QueriesController.customEmpty
+POST    /queries/custom             controllers.QueriesController.custom
+GET     /queries/:id                controllers.QueriesController.query(id: Int, sel:Int ?= 0)
 
 # Athletes
-GET     /athletes                   controllers.AthleteController.list
+GET     /athletes                   controllers.AthleteController.list(p:Int ?= 0, s:Int ?= 20)
 GET     /athletes/new               controllers.AthleteController.add
 POST    /athletes/new               controllers.AthleteController.save
 GET     /athletes/:id/edit          controllers.AthleteController.edit(id: Long)
@@ -19,7 +18,7 @@ POST    /athletes/:id/edit          controllers.AthleteController.update(id: Lon
 GET     /athletes/:id/delete        controllers.AthleteController.delete(id: Long)
 
 # Countries
-GET     /countries                  controllers.CountryController.list
+GET     /countries                  controllers.CountryController.list(p:Int ?= 0, s:Int ?= 20)
 GET     /countries/new              controllers.CountryController.add
 POST    /countries/new              controllers.CountryController.save
 GET     /countries/:id/edit         controllers.CountryController.edit(id: Long)
@@ -27,7 +26,7 @@ POST    /countries/:id/edit         controllers.CountryController.update(id: Lon
 GET     /countries/:id/delete       controllers.CountryController.delete(id: Long)
 
 # Sports
-GET     /sports                  controllers.SportController.list
+GET     /sports                  controllers.SportController.list(p:Int ?= 0, s:Int ?= 20)
 GET     /sports/new              controllers.SportController.add
 POST    /sports/new              controllers.SportController.save
 GET     /sports/:id/edit         controllers.SportController.edit(id: Long)
@@ -35,7 +34,7 @@ POST    /sports/:id/edit         controllers.SportController.update(id: Long)
 GET     /sports/:id/delete       controllers.SportController.delete(id: Long)
 
 # Disciplines
-GET     /disciplines                  controllers.DisciplineController.list
+GET     /disciplines                  controllers.DisciplineController.list(p:Int ?= 0, s:Int ?= 20)
 GET     /disciplines/new              controllers.DisciplineController.add
 POST    /disciplines/new              controllers.DisciplineController.save
 GET     /disciplines/:id/edit         controllers.DisciplineController.edit(id: Long)
@@ -43,7 +42,7 @@ POST    /disciplines/:id/edit         controllers.DisciplineController.update(id
 GET     /disciplines/:id/delete       controllers.DisciplineController.delete(id: Long)
 
 # Games
-GET     /games                  controllers.GameController.list
+GET     /games                  controllers.GameController.list(p:Int ?= 0, s:Int ?= 20)
 GET     /games/new              controllers.GameController.add
 POST    /games/new              controllers.GameController.save
 GET     /games/:id/edit         controllers.GameController.edit(id: Long)
@@ -61,6 +60,12 @@ GET     /events                        controllers.EventDGController.list
 GET     /events/new                    controllers.EventDGController.add
 POST    /events/new                    controllers.EventDGController.save
 GET     /events/:did/:gid/delete       controllers.EventDGController.delete(did: Long, gid: Long)
+
+# Participants
+GET     /participants                        controllers.ParticipantController.list
+GET     /participants/new                    controllers.ParticipantController.add
+POST    /participants/new                    controllers.ParticipantController.save
+#GET     /participants/:aid/:cid/delete       controllers.ParticipantController.delete(aid: Long, cid: Long)
 
 
 # Map static resources from the /public folder to the /assets URL path

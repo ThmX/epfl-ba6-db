@@ -18,7 +18,6 @@ CREATE TABLE Sports (
    name                  char(60),
    PRIMARY KEY (id),
    UNIQUE (name)
-
 );
 
 CREATE TABLE Games (
