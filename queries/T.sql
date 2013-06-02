@@ -1,5 +1,7 @@
 -- List names of all athletes who won gold in team sports, but only won silvers or bronzes individually.
 
+-- The query is searching for individual medalist and team medalist (were there are several medals of the same value for the same event).
+
 SELECT a.id as athlete_id, a.name as athlete_name
 FROM (
     SELECT DISTINCT(a.id) as athlete_id

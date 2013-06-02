@@ -1,5 +1,7 @@
 -- List all Olympians who won medals for multiple nations.
 
+-- Look if there is a participant who has a medal for two different countries.
+
 SELECT DISTINCT a.name, c1.country_id, c1.country_name, c2.country_id, c2.country_name
 FROM athletes a, 
   (

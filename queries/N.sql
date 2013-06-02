@@ -1,5 +1,7 @@
 -- List all nations whose first medal was gold, all nations whose first medal was silver and all nations whose first medal was bronze
 
+-- For each country, the query is searching for the first medal.
+
 SELECT c.id as country_id, c.name as country_name, g.year, p.ranking
 FROM representant_participates_event p
 INNER JOIN Countries c ON c.id = p.country_id

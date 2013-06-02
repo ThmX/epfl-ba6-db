@@ -1,5 +1,7 @@
 -- For all disciplines, compute the country which waited the most between two successive medals.
 
+-- The View is the time that a country has waited  between 2 medals for each discipline. The following query is only giving the country according to the maximum time and the discipline.
+
 CREATE VIEW DelayByCountryByDiscipline AS (
   SELECT p1.discipline_id as discipline_id, g1.year-g2.year as time_waited, p1.country_id as country_id
   FROM representant_participates_event p1, representant_participates_event p2, games g1, games g2

@@ -1,5 +1,7 @@
 -- List top 10 nations according to their success in team sports.
 
+-- Compute for each country the number of medals and the number of medalists. The list of countries is then sorted by the quotient (number of medals over number of medalists)
+
 SELECT medalists.country_name
 FROM (
   -- Gets the number of medalists
