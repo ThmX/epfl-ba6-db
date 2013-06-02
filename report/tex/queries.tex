@@ -60,6 +60,74 @@ each country.
 	\lstinputlisting[caption={Query H}]{scripts/H.sql}
 \end{center}
 
+\begin{center}
+	\lstinputlisting[caption={Query I}]{scripts/I.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query J}]{scripts/J.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query K}]{scripts/K.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query L}]{scripts/L.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query M}]{scripts/M.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query N}]{scripts/N.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query O}]{scripts/O.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query P}]{scripts/P.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query Q}]{scripts/Q.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query R}]{scripts/R.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query S}]{scripts/S.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query T}]{scripts/T.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query U}]{scripts/U.sql}
+\end{center}
+
+\begin{center}
+	\lstinputlisting[caption={Query V}]{scripts/V.sql}
+\end{center}
+
+\section{Indexes}
+While trying to add an index, we discovered that \textbf{MySQL} already generated indexes for all entities and relations.
+It was then useless for us to insert a new index, here is the code we would have used.
+
+\begin{lstlisting}[caption={Index creation}]
+CREATE INDEX myIndex
+ON Representant_participates_Event (country_id, games_id)
+\end{lstlisting}
+
+
+\section{Performances}
+When launching the queries, we can see the time spent by the system to execute the query.
 
 %------------------------------------------------------------------------------
 % END OF DOCUMENT

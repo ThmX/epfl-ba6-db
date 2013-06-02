@@ -42,15 +42,36 @@ object Queries {
 	) > 1"""
     ),
     Query(
-      "Query F",
-      "List names of all athletes who competed for more than one country.",
-      """SELECT A.id as id, A.name as name
-	FROM Athletes A
-	WHERE (
-		SELECT COUNT(AC.country_id)
-		FROM Athletes_represent_Countries AC
-		WHERE A.id = AC.athlete_id
-	) > 1"""
+      "Query M",
+      "List all Olympians who won medals for multiple nations.",
+      """SELECT DISTINCT
+    a.name,
+    c1.country_id,
+    c1.country_name,
+    c2.country_id,
+    c2.country_name
+FROM
+    (SELECT 
+        p.athlete_id as medalist_id,
+            c.id as country_id,
+            c.name as country_name
+    FROM
+        representant_participates_event p, countries c
+    WHERE
+        p.ranking != 0 AND p.country_id = c.id) c1,
+    (SELECT 
+        p.athlete_id as medalist_id,
+            c.id as country_id,
+            c.name as country_name
+    FROM
+        representant_participates_event p, countries c
+    WHERE
+        p.ranking != 0 AND p.country_id = c.id) c2,
+    athletes a
+WHERE
+    c1.medalist_id = c2.medalist_id
+        AND a.id = c1.medalist_id
+        AND c1.country_id < c2.country_id;"""
     ),
     Query(
       "Query I",

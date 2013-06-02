@@ -1,0 +1,20 @@
+-- For each sport, list the 3 nations which have won the most medals.
+
+-- Sadly this query is not finished. We could not see how to do it properly...
+-- Here are the guideline that we tried to follow : 
+-- 1 - For each discipline, we see how many medals are there
+-- 2 - Then we add them to get the number of medals per sports
+-- 3 - Afterwards we select only the TOP3 for each of them
+-- 
+-- SELECT S.id, COUNT(*) as first,COUNT(*) as second,COUNT(*) as third
+-- FROM Sports S
+-- 
+-- SELECT S.id as sport_id, SUM(P.nb_medals) as nb_medals_per_sport
+-- FROM Sports S, (
+--   SELECT P1.discipline_id, COUNT(P1.ranking) as nb_medals
+--   FROM Representant_participates_Event P1
+--   INNER JOIN Disciplines D ON P1.discipline_id = D.id
+--   GROUP BY P1.discipline_id
+-- ) P, Disciplines D
+-- WHERE P.discipline_id = D.id AND S.id = D.sport_id
+-- GROUP BY S.id
