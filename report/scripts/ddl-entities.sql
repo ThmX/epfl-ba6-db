@@ -1,20 +1,23 @@
 CREATE TABLE Athletes (
    id                    integer AUTO_INCREMENT,
    name                  char(255),
-   PRIMARY KEY (id)
+   PRIMARY KEY (id),
+   UNIQUE (name)
 );
 
 CREATE TABLE Countries (
    id                    integer AUTO_INCREMENT,
    name                  char(60),
    ioc_code              char(6),
-   PRIMARY KEY (id)
+   PRIMARY KEY (id),
+   UNIQUE (name)
 );
 
 CREATE TABLE Sports (
    id                    integer AUTO_INCREMENT,
    name                  char(60),
-   PRIMARY KEY (id)
+   PRIMARY KEY (id),
+   UNIQUE (name)
 
 );
 
@@ -25,6 +28,7 @@ CREATE TABLE Games (
    host_country          integer NOT NULL,
    host_city             char(60) NOT NULL,
    PRIMARY KEY (id),
+   UNIQUE (year)
    FOREIGN KEY (host_country) REFERENCES Countries (id)
 );
 
@@ -33,6 +37,7 @@ CREATE TABLE Disciplines (
    name                  char(100),
    sport_id                 integer NOT NULL,
    PRIMARY KEY (id),
+   UNIQUE (name),
    FOREIGN KEY (sport_id) REFERENCES Sports (id)
       ON DELETE CASCADE
 );
