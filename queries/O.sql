@@ -66,17 +66,21 @@
 --    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 -- );
 
--- List all nations whose first medal was gold, all nations whose first medal was silver and all nations
--- whose first medal was bronze. If nation won more than one medal at the first Olympics it won a medal, consider that it won the “shinier” medal first. For example if a country didn’t win any medals before games in 1960 and then it won a gold and a bronze, then its first medal is a gold.
+-- For all disciplines, compute the country which waited the most between two successive medals.
 
-SELECT c.id as country_id, c.name as country_name, g.year, p.ranking
-FROM representant_participates_event p, Countries c, Games g
-WHERE p.country_id = c.id AND p.games_id = g.id AND p.ranking != 0 AND g.year = (
-    SELECT MIN(g1.year)
-    FROM Games g1, representant_participates_event p1
-    WHERE p1.games_id = g1.id AND p1.games_id = g.id AND p1.ranking != 0
-    ORDER BY p1.ranking ASC
-    LIMIT 1
-  )
-GROUP BY c.id
-ORDER BY p.ranking
+CREATE VIEW DelayByCountryByDiscipline AS (
+  SELECT p1.discipline_id as discipline_id, g1.year-g2.year as time_waited, p1.country_id as country_id
+  FROM representant_participates_event p1, representant_participates_event p2, games g1, games g2
+  WHERE p1.country_id = p2.country_id AND p1.games_id = g1.id AND p2.games_id = g2.id AND g1.year > g2.year
+  AND p1.ranking != 0 AND p2.ranking != 0 AND p1.discipline_id = p2.discipline_id
+  GROUP BY p1.discipline_id
+);
+
+SELECT d.name as discipline, c.name as country, join2.max_delay as number_of_years_waited
+FROM DelayByCountryByDiscipline join1, Disciplines d, Countries c, (
+  SELECT MAX(time_waited) as max_delay, discipline_id
+  FROM DelayByCountryByDiscipline
+  GROUP BY discipline_id
+) join2
+WHERE join1.discipline_id = join2.discipline_id AND join1.time_waited = join2.max_delay AND join1.discipline_id = d.id
+AND join1.country_id = c.id
