@@ -35,7 +35,7 @@ CREATE TABLE Games (
 CREATE TABLE Disciplines (
    id                    integer AUTO_INCREMENT,
    name                  char(100),
-   sport_id                 integer NOT NULL,
+   sport_id              integer NOT NULL,
    PRIMARY KEY (id),
    UNIQUE (name),
    FOREIGN KEY (sport_id) REFERENCES Sports (id)
