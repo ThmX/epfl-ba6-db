@@ -66,16 +66,42 @@
 --    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 -- );
 
--- For each Olympic Games print the name of the country with the most participants.
+-- List top 10 nations according to their success in team sports.
+-- A verifier
 
-SELECT G.year, C.name
-FROM Games G, Countries C
-WHERE C.id = (
-  SELECT RE.country_id
-  FROM Representant_participates_Event RE
-  WHERE RE.games_id = G.id
-  GROUP BY RE.country_id
-  ORDER BY COUNT(RE.country_id) DESC
-  LIMIT 1
-)
-GROUP BY G.id
+SELECT medalists.country_name
+FROM (
+    SELECT COUNT(*) as number_of_medalists, c.name as country_name, c.id as country_id
+    FROM Representant_participates_Event p, Countries c, Disciplines d
+    WHERE p.country_id = c.id AND p.discipline_id = d.id AND p.ranking != 0
+    GROUP BY c.id) medalists,
+    (SELECT COUNT(DISTINCT d.id) as number_of_medals, c.name as country_name, c.id as country_id
+    FROM Representant_participates_Event p, Countries c, Disciplines d
+    WHERE p.country_id = c.id AND p.discipline_id = d.id AND p.ranking != 0
+    GROUP BY c.id) medals
+WHERE medalists.country_id = medals.country_id
+ORDER BY (medalists.number_of_medalists/medals.number_of_medals)
+LIMIT 0, 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

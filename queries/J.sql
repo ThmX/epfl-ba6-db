@@ -66,19 +66,7 @@
 --    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 -- );
 
--- List all countries which didn’t ever win a medal.
-
-SELECT C.name
-FROM Countries C
-WHERE (
-  SELECT SUM(RE.ranking)
-  FROM Representant_participates_Event RE
-  WHERE RE.country_id = C.id
-) IS NULL OR (
-  SELECT SUM(RE.ranking)
-  FROM Representant_participates_Event RE
-  WHERE RE.country_id = C.id
-) = 0
+-- For each sport, list the 3 nations which have won the most medals.
 
 
 
@@ -101,3 +89,4 @@ WHERE (
 
 
 
+ 

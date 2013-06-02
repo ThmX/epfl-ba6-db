@@ -66,12 +66,30 @@
 --    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 -- );
 
--- List all cities which hosted the Olympics more than once.
+-- List top 10 countries according to their success on the events which appear at the Olympics for the first
+-- time. Present the list in the form of the medal table (as described for query I).
 
-SELECT DISTINCT G.host_city
-FROM Games G
-WHERE EXISTS (
-	SELECT *
-	FROM Games G2
-	WHERE G.id != G2.id AND G.host_city = G2.host_city
-)
+SELECT e1.discipline_id, e1.games_id
+FROM disciplines_event_games e1, games g1, (
+    SELECT e2.discipline_id as discipline_id, MIN(g2.year) as min_year
+    FROM disciplines_event_games e2, games g2
+    WHERE e2.games_id = g2.id
+    GROUP BY e2.discipline_id
+  ) min_by_dis
+WHERE e1.games_id = g1.id AND min_by_dis.discipline_id = e1.discipline_id AND g1.year = min_by_dis.min_year
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

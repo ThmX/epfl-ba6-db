@@ -66,12 +66,14 @@
 --    FOREIGN KEY (discipline_id, games_id) REFERENCES Disciplines_event_Games (discipline_id, games_id)
 -- );
 
--- List names of all athletes who competed for more than one country.
+-- List all nations whose first medal was gold, all nations whose first medal was silver and all nations whose first medal was bronze
 
-SELECT A.name
-FROM Athletes A
-WHERE (
-	SELECT COUNT(AC.country_id)
-	FROM Athletes_represent_Countries AC
-	WHERE A.id = AC.athlete_id
-) > 1
+-- Marche presque:
+
+SELECT c.id as country_id, c.name as country_name, g.year, p.ranking
+FROM representant_participates_event p, Countries c, Games g
+WHERE p.country_id = c.id AND p.games_id = g.id AND g.year = (SELECT MIN(g1.year)
+    FROM Games g1, representant_participates_event p1
+    WHERE p1.games_id = g1.id AND p1.country_id = g.id AND p1.ranking != 0)
+GROUP BY c.id  
+ORDER BY p.ranking

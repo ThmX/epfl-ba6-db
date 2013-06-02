@@ -28,7 +28,7 @@ CREATE TABLE Games (
    host_country          integer NOT NULL,
    host_city             char(60) NOT NULL,
    PRIMARY KEY (id),
-   UNIQUE (year)
+   UNIQUE (year),
    FOREIGN KEY (host_country) REFERENCES Countries (id)
 );
 

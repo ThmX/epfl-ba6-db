@@ -107,7 +107,3 @@ WHERE (
 	FROM Representant_participates_Event RE
 	WHERE RE.country_id = C.id
 ) = 0;
-
-  
-
-  
